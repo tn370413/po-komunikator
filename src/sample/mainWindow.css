@@ -1,0 +1,37 @@
+.header {
+    -fx-min-height: 30px;
+    -fx-background-color: teal;
+    -fx-font-size: 24px;
+    -fx-padding: 0 0 10 0;
+    -fx-font-weight: 700;
+    -fx-min-width: 100%;
+}
+
+.header Label {
+    -fx-text-fill: white;
+}
+
+#your-id-info {
+  -fx-min-height: 40px;
+  -fx-font-size: 16px;
+  -fx-padding: 0 0 20 0;
+  -fx-font-weight: 200;
+  -fx-min-width: 100%;
+}
+
+#connect-box {
+    -fx-padding: 0 0 25 0;
+}
+
+#connect-box, #their-ip, #their-port {
+    -fx-alignment: bottom-right;
+}
+
+#connect-label {
+    -fx-font-size: 16px;
+}
+
+.info-label {
+    -fx-text-fill: teal;
+    -fx-font-weight: 700;
+}
