@@ -1,28 +1,15 @@
 package com.communicator490.controllers.mainWindow;
 
-import com.communicator490.controllers.guiController;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.Node;
 
-public class mainWindowController extends guiController {
-
-    public void initialize() {
-        initializeChangePortBox();
-
-        // TODO should set Your IP and Your port
-    }
-
-
-    /*
-        Change port box
-     */
-
+public class YourIdInfoController extends MainWindowComponentController {
     @FXML
     private Label changePortLabel;
 
@@ -38,7 +25,7 @@ public class mainWindowController extends guiController {
     @FXML
     private HBox changePortBox;
 
-    private void initializeChangePortBox() {
+    public void initialize() {
         changePortTextField.setId("your-port-change-textfield");
         saveNewPortLabel.getStyleClass().add("your-port-change-label");
         cancelNewPortLabel.getStyleClass().add("your-port-change-label");
@@ -57,7 +44,7 @@ public class mainWindowController extends guiController {
             changePortBoxChildren.remove(posChangePortLabel);
             changePortBoxChildren.add(posChangePortLabel, cancelNewPortLabel);
             changePortBoxChildren.add(posChangePortLabel, saveNewPortLabel);
-            stage.sizeToScene();
+            mainWindowStage.sizeToScene();
         }
     };
 
@@ -66,7 +53,7 @@ public class mainWindowController extends guiController {
         changePortBoxChildren.add(posChangePortLabel, changePortLabel);
         changePortBoxChildren.remove(cancelNewPortLabel);
         changePortBoxChildren.remove(saveNewPortLabel);
-        stage.sizeToScene();
+        mainWindowStage.sizeToScene();
     }
 
     private EventHandler<MouseEvent> savePortHandler = new EventHandler<MouseEvent>() {
@@ -89,8 +76,4 @@ public class mainWindowController extends guiController {
             saveCancelPortAux(changePortBoxChildren);
         }
     };
-
-    /*
-
-     */
 }

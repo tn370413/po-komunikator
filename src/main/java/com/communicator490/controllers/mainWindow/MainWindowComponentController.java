@@ -1,13 +1,13 @@
-package com.communicator490.controllers;
+package com.communicator490.controllers.mainWindow;
 
-import com.communicator490.communicator.Communicator;
+import com.communicator490.controllers.GuiController;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class guiController {
+public class MainWindowComponentController extends GuiController {
     protected void replaceLabelTextField(Label label, TextField textField, ObservableList<Node> siblings) {
         int pos = siblings.indexOf(label);
         siblings.remove(label);
@@ -22,15 +22,10 @@ public class guiController {
         siblings.add(pos, label);
     }
 
-    protected Stage stage;
+    protected static Stage mainWindowStage;
 
-    protected Communicator communicator;
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public void setCommunicator(Communicator communicator) {
-        this.communicator = communicator;
+    public static void setStage(Stage stage) {
+        MainWindowComponentController.mainWindowStage = stage;
+        stage.setTitle("Komunikator490");
     }
 }
