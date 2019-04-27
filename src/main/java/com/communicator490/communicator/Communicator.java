@@ -1,4 +1,4 @@
-package sample;
+package com.communicator490.communicator;
 
 public class Communicator {
     private int port;

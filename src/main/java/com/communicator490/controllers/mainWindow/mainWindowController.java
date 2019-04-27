@@ -1,5 +1,6 @@
-package sample;
+package com.communicator490.controllers.mainWindow;
 
+import com.communicator490.controllers.guiController;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -47,7 +48,7 @@ public class mainWindowController extends guiController {
         cancelNewPortLabel.setOnMouseClicked(cancelPortHandler);
     }
 
-    private EventHandler<MouseEvent> changePortHandler = new EventHandler<>() {
+    private EventHandler<MouseEvent> changePortHandler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
             ObservableList<Node> changePortBoxChildren = changePortBox.getChildren();
@@ -68,7 +69,7 @@ public class mainWindowController extends guiController {
         stage.sizeToScene();
     }
 
-    private EventHandler<MouseEvent> savePortHandler = new EventHandler<>() {
+    private EventHandler<MouseEvent> savePortHandler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
             communicator.setPort(Integer.parseInt(changePortTextField.getText()));
@@ -79,7 +80,7 @@ public class mainWindowController extends guiController {
         }
     };
 
-    private EventHandler<MouseEvent> cancelPortHandler = new EventHandler<>() {
+    private EventHandler<MouseEvent> cancelPortHandler = new EventHandler<MouseEvent>() {
         @Override
         public void handle(MouseEvent mouseEvent) {
             ObservableList<Node> changePortBoxChildren = changePortBox.getChildren();

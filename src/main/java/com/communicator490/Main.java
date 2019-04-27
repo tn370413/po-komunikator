@@ -1,5 +1,7 @@
-package sample;
+package com.communicator490;
 
+import com.communicator490.communicator.Communicator;
+import com.communicator490.controllers.mainWindow.mainWindowController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,14 +14,14 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("mainWindow.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/communicator490/fxml/mainWindow/mainWindow.fxml"));
         Parent root = loader.load();
         mainWindowController controller = loader.getController();
         controller.setStage(primaryStage);
         controller.setCommunicator(communicator);
-        primaryStage.setTitle("Hello World");
-        Scene scene = new Scene(root);//), 300, 275);
-        scene.getStylesheets().add(getClass().getResource("mainWindow.css").toExternalForm());
+        primaryStage.setTitle("Komunikator490");
+        Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/com/communicator490/css/mainWindow.css").toExternalForm());
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -1,8 +1,10 @@
-package sample;
+package com.communicator490.controllers;
 
+import com.communicator490.communicator.Communicator;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class guiController {

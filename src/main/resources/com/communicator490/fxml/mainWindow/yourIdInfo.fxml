@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
+<HBox id="your-ip">
+    <Label text="Your IP: " id="your-ip-label" styleClass="info-label"></Label>
+    <Label text="192.168.0.1" id="your-ip-value-label"></Label>
+</HBox>
+<HBox id="your-port" fx:id="changePortBox">
+    <Label text="Your port: " id="your-port-label" styleClass="info-label"></Label>
+    <Label text="490" id="your-port-value-label" fx:id="changePortText"></Label>
+    <Label text=" (Change)" styleClass="your-port-change-label" fx:id="changePortLabel"></Label>
+</HBox>
+</fx:root>
