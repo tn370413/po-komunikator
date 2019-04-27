@@ -1,26 +1,51 @@
+/*
+    primary colour: midnightblue
+    background colour: mintcream
+    error colour: crimson
+    success colour: seagreen
+ */
+
 .header {
     -fx-min-height: 30px;
-    -fx-background-color: teal;
+    -fx-background-color: midnightblue;
     -fx-font-size: 24px;
-    -fx-padding: 0 0 10 0;
+    -fx-padding: 10 25 10 5;
     -fx-font-weight: 700;
     -fx-min-width: 100%;
 }
 
+.belowHeader {
+    -fx-padding: 10 5 10 5;
+    -fx-background-color: mintcream;
+}
+
 .header Label {
-    -fx-text-fill: white;
+    -fx-text-fill: mintcream;
 }
 
 #your-id-info {
-  -fx-min-height: 40px;
-  -fx-font-size: 16px;
-  -fx-padding: 0 0 20 0;
-  -fx-font-weight: 200;
-  -fx-min-width: 100%;
+    -fx-min-height: 40px;
+    -fx-font-size: 16px;
+    -fx-font-weight: 700;
+    -fx-min-width: 100%;
 }
 
-#connect-box {
-    -fx-padding: 0 0 25 0;
+#your-port {
+    -fx-alignment: bottom-left;
+}
+
+.your-port-change-label {
+    -fx-font-size: 12px;
+    -fx-font-weight: 100;
+    -fx-text-fill: midnightblue;
+    -fx-cursor: hand;
+}
+
+#your-port-change-textfield {
+    -fx-max-width: 75px;
+    -fx-pref-width: 75px;
+    -fx-font-weight: 100;
+    -fx-font-size: 14px;
 }
 
 #connect-box, #their-ip, #their-port {
@@ -32,6 +57,10 @@
 }
 
 .info-label {
-    -fx-text-fill: teal;
+    -fx-text-fill: midnightblue;
     -fx-font-weight: 700;
+}
+
+#error-success-label {
+    -fx-text-fill: crimson;
 }
