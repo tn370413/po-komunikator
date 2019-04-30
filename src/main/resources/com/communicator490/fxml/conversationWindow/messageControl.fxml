@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
+    <Label styleClass="messageDate" fx:id="messageDate"/>
+    <Label styleClass="messageContent" fx:id="messageContent"/>
+</fx:root>

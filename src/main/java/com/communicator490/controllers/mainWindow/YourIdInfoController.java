@@ -1,79 +1,49 @@
 package com.communicator490.controllers.mainWindow;
 
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class YourIdInfoController extends MainWindowComponentController {
     @FXML
-    private Label changePortLabel;
+    private Label yourIPText;
 
     @FXML
-    private Label changePortText;
-
-    private TextField changePortTextField = new TextField();
-
-    private Label saveNewPortLabel = new Label(" (Save)");
-
-    private Label cancelNewPortLabel = new Label(" (Cancel)");
+    private Label toggleNetworkToLocalLabel;
 
     @FXML
-    private HBox changePortBox;
+    private Label toggleNetworkToExternalLabel;
+
+    @FXML
+    private Label yourPortText;
+
+    @FXML
+    private VBox yourIdInfoVBox;
 
     public void initialize() {
-        changePortTextField.setId("your-port-change-textfield");
-        saveNewPortLabel.getStyleClass().add("your-port-change-label");
-        cancelNewPortLabel.getStyleClass().add("your-port-change-label");
+        yourIdInfoVBox.getChildren().remove(toggleNetworkToExternalLabel);
+        toggleToLocal();
 
-        changePortLabel.setOnMouseClicked(changePortHandler);
-        saveNewPortLabel.setOnMouseClicked(savePortHandler);
-        cancelNewPortLabel.setOnMouseClicked(cancelPortHandler);
+        toggleNetworkToLocalLabel.setOnMouseClicked(toggleToLocalHandler);
+        toggleNetworkToExternalLabel.setOnMouseClicked(toggleToExternalHandler);
+
+        yourIdInfoVBox.getChildren().remove(toggleNetworkToExternalLabel); // TODO external IP not implemented yet
     }
 
-    private EventHandler<MouseEvent> changePortHandler = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent mouseEvent) {
-            ObservableList<Node> changePortBoxChildren = changePortBox.getChildren();
-            replaceLabelTextField(changePortText, changePortTextField, changePortBoxChildren);
-            int posChangePortLabel = changePortBoxChildren.indexOf(changePortLabel);
-            changePortBoxChildren.remove(posChangePortLabel);
-            changePortBoxChildren.add(posChangePortLabel, cancelNewPortLabel);
-            changePortBoxChildren.add(posChangePortLabel, saveNewPortLabel);
-            mainWindowStage.sizeToScene();
-        }
-    };
-
-    private void saveCancelPortAux(ObservableList<Node> changePortBoxChildren) {
-        int posChangePortLabel = changePortBoxChildren.indexOf(cancelNewPortLabel);
-        changePortBoxChildren.add(posChangePortLabel, changePortLabel);
-        changePortBoxChildren.remove(cancelNewPortLabel);
-        changePortBoxChildren.remove(saveNewPortLabel);
-        mainWindowStage.sizeToScene();
+    private void toggleToLocal() {
+        yourIPText.setText(communicator.getInternalIp());
+        yourPortText.setText(String.format("%d", communicator.getInternalPort()));
+        replace(toggleNetworkToLocalLabel, toggleNetworkToExternalLabel, yourIdInfoVBox.getChildren());
     }
 
-    private EventHandler<MouseEvent> savePortHandler = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent mouseEvent) {
-            communicator.setPort(Integer.parseInt(changePortTextField.getText()));
+    private void toggleToExternal() {
+        yourIPText.setText(communicator.getIp());
+        yourPortText.setText(String.format("%d", communicator.getPort()));
+        replace(toggleNetworkToExternalLabel, toggleNetworkToLocalLabel, yourIdInfoVBox.getChildren());
+    }
 
-            ObservableList<Node> changePortBoxChildren = changePortBox.getChildren();
-            replaceTextFieldLabel(changePortTextField, changePortText, changePortBoxChildren);
-            saveCancelPortAux(changePortBoxChildren);
-        }
-    };
-
-    private EventHandler<MouseEvent> cancelPortHandler = new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent mouseEvent) {
-            ObservableList<Node> changePortBoxChildren = changePortBox.getChildren();
-            replaceTextFieldLabel(changePortTextField, changePortText, changePortBoxChildren);
-            changePortText.setText(String.format("%d", communicator.getPort()));
-            saveCancelPortAux(changePortBoxChildren);
-        }
-    };
+    private EventHandler<MouseEvent> toggleToLocalHandler = mouseEvent -> toggleToLocal();
+    private EventHandler<MouseEvent> toggleToExternalHandler = mouseEvent -> toggleToExternal();
 }

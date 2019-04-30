@@ -17,20 +17,21 @@
 .belowHeader {
     -fx-padding: 10 5 10 5;
     -fx-background-color: mintcream;
+    -fx-min-width: 100%;
 }
 
 .header Label {
     -fx-text-fill: mintcream;
 }
 
-#your-id-info {
+.your-id-info {
     -fx-min-height: 40px;
     -fx-font-size: 16px;
     -fx-font-weight: 700;
     -fx-min-width: 100%;
 }
 
-#your-port {
+.your-port {
     -fx-alignment: bottom-left;
 }
 
@@ -41,26 +42,22 @@
     -fx-cursor: hand;
 }
 
-#your-port-change-textfield {
+.your-port-change-textfield {
     -fx-max-width: 75px;
     -fx-pref-width: 75px;
     -fx-font-weight: 100;
     -fx-font-size: 14px;
 }
 
-#connect-box, #their-ip, #their-port {
+.connect-box, .their-ip, .their-port {
     -fx-alignment: bottom-right;
 }
 
-#connect-label {
+.connect-label {
     -fx-font-size: 16px;
 }
 
 .info-label {
     -fx-text-fill: midnightblue;
     -fx-font-weight: 700;
-}
-
-#error-success-label {
-    -fx-text-fill: crimson;
 }

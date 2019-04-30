@@ -3,14 +3,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
-    <HBox id="your-ip">
-        <Label text="Your IP: " id="your-ip-label" styleClass="info-label"/>
-        <Label text="192.168.0.1" id="your-ip-value-label"/>
+<?import java.net.URL?>
+<VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.communicator490.controllers.mainWindow.YourIdInfoController"
+      styleClass="your-id-info,belowHeader" fx:id="yourIdInfoVBox">
+    <HBox>
+        <Label text="Your IP: " styleClass="info-label"/>
+        <Label text="192.168.0.1" fx:id="yourIPText"/>
     </HBox>
-    <HBox id="your-port" fx:id="changePortBox">
-        <Label text="Your port: " id="your-port-label" styleClass="info-label"/>
-        <Label text="490" id="your-port-value-label" fx:id="changePortText"/>
-        <Label text=" (Change)" styleClass="your-port-change-label" fx:id="changePortLabel"/>
+    <HBox styleClass="your-port">
+        <Label text="Your port: " styleClass="info-label"/>
+        <Label text="490" fx:id="yourPortText"/>
     </HBox>
-</fx:root>
+
+    <Label text=" (Change to local)" styleClass="your-port-change-label" fx:id="toggleNetworkToLocalLabel"/>
+    <Label text=" (Change to external)" styleClass="your-port-change-label" fx:id="toggleNetworkToExternalLabel"/>
+
+    <stylesheets>
+        <URL value="@../../css/mainWindow.css"/>
+    </stylesheets>
+</VBox>

@@ -23,9 +23,4 @@ public class MainWindowComponentController extends GuiController {
     }
 
     protected static Stage mainWindowStage;
-
-    public static void setStage(Stage stage) {
-        MainWindowComponentController.mainWindowStage = stage;
-        stage.setTitle("Komunikator490");
-    }
 }

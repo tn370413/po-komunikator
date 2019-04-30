@@ -1,0 +1,8 @@
+.header {
+    -fx-min-height: 30px;
+    -fx-background-color: midnightblue;
+    -fx-font-size: 24px;
+    -fx-padding: 10 25 10 5;
+    -fx-font-weight: 700;
+    -fx-min-width: 100%;
+}

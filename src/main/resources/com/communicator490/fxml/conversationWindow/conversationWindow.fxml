@@ -6,9 +6,24 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.communicator490.controllers.conversationWindow.ConversationWindowController"
             prefHeight="400.0" prefWidth="600.0">
+    <top>
+        <Label text="Conversation with 192.168.0.1" styleClass="header"/>
+    </top>
+    <center>
+        <fx:include fx:id="messagesOuterBox" source="messagesBox.fxml"/>
+    </center>
+    <bottom>
+        <HBox>
+            <TextField>
 
-</AnchorPane>
+            </TextField>
+            <Button>
+
+            </Button>
+        </HBox>
+    </bottom>
+</BorderPane>
