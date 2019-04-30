@@ -10,29 +10,10 @@ import java.net.SocketException;
 
 public class ServerThread extends Thread {
     private DatagramSocket socket;
-    private int internalPort;
 
-    public ServerThread(int internalPort) throws SocketException {
-        super(String.format("ServerOn%dThread", internalPort));
-        this.internalPort = internalPort;
-        boolean success = false;
-        while (!success && this.internalPort < 65536) {
-            try {
-                socket = new DatagramSocket(this.internalPort);
-                success = true;
-            } catch (SocketException e) {
-                this.internalPort++;
-            }
-        }
-        this.setName(String.format("ServerOn%dThread", this.internalPort));
-
-        if (!success) {
-            throw new SocketException(String.format("Couldn't start server: can't listen at internalPort %d or any higher", internalPort));
-        }
-    }
-
-    public int getInternalPort() {
-        return internalPort;
+    public ServerThread(DatagramSocket socket, String name) {
+        super(name);
+        this.socket = socket;
     }
 
     public void run() {
@@ -54,10 +35,5 @@ public class ServerThread extends Thread {
                 Thread.currentThread().interrupt();
             }
         }
-    }
-
-    public void stopServerThread() {
-        socket.close();
-        Thread.currentThread().interrupt();
     }
 }

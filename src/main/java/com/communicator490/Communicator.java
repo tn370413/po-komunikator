@@ -64,7 +64,7 @@ public class Communicator {
     }
 
     public void receiveMessage(Message m) {
-        InetAddress fromIP = m.getFromIP();
+        InetAddress fromIP = m.getIp();
         if (!conversationWindowControllers.containsKey(fromIP.getHostAddress())) {
             Conversation conversation = new Conversation(fromIP);
             ConversationWindowController conversationWindowController = mainWindowController.openConversationWindow(conversation);
@@ -75,5 +75,9 @@ public class Communicator {
 
     public void endConversation(ConversationWindowController windowController) {
         conversationWindowControllers.remove(windowController.getConversation().getForeignAddress());
+    }
+
+    public void sendMessage(Message message) {
+        server.sendMessage(message);
     }
 }
