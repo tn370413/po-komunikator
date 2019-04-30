@@ -8,9 +8,13 @@ public class MessagesOuterBoxController {
     @FXML
     private VBox messagesBox;
 
-
-    public void receiveMessage(String content) {
+    public void displayNewMessage(String content, boolean fromMe) {
         MessageControl messageControl = new MessageControl(content);
+        if (fromMe) {
+            messageControl.getStyleClass().add("sent-message");
+        } else {
+            messageControl.getStyleClass().add("received-message");
+        }
         messagesBox.getChildren().add(messageControl);
     }
 }

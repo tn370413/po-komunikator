@@ -5,7 +5,7 @@
 
 <?import java.net.URL?>
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.communicator490.controllers.mainWindow.YourIdInfoController"
-      styleClass="your-id-info,belowHeader" fx:id="yourIdInfoVBox">
+      styleClass="your-id-info,below-header" fx:id="yourIdInfoVBox">
     <HBox>
         <Label text="Your IP: " styleClass="info-label"/>
         <Label text="192.168.0.1" fx:id="yourIPText"/>

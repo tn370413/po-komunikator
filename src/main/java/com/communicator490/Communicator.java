@@ -66,7 +66,7 @@ public class Communicator {
     public void receiveMessage(Message m) {
         InetAddress fromIP = m.getIp();
         if (!conversationWindowControllers.containsKey(fromIP.getHostAddress())) {
-            Conversation conversation = new Conversation(fromIP);
+            Conversation conversation = new Conversation(fromIP, m.getPort());
             ConversationWindowController conversationWindowController = mainWindowController.openConversationWindow(conversation);
             conversationWindowControllers.put(fromIP.getHostAddress(), conversationWindowController);
         }

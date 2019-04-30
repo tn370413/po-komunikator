@@ -6,24 +6,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import java.net.URL?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.communicator490.controllers.conversationWindow.ConversationWindowController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="400.0" prefWidth="600.0" styleClass="root-pane">
     <top>
-        <Label text="Conversation with 192.168.0.1" styleClass="header"/>
+        <Pane styleClass="header">
+            <Label text="Conversation with 192.168.0.1" fx:id="headerLabel"/>
+        </Pane>
     </top>
     <center>
-        <fx:include fx:id="messagesOuterBox" source="messagesBox.fxml"/>
+            <fx:include fx:id="messagesOuterBox" source="messagesBox.fxml"/>
+
     </center>
     <bottom>
         <HBox>
-            <TextField>
+            <TextField fx:id="messageToSend" styleClass="message-to-send">
 
             </TextField>
-            <Button>
+
+            <TextField fx:id="messageToSendPortDebug" text="1024">
+
+            </TextField>
+            <Button text="Send" fx:id="sendButton" styleClass="send-button">
 
             </Button>
         </HBox>
     </bottom>
+
+    <stylesheets>
+        <URL value="@../../css/conversationWindow.css" />
+    </stylesheets>
 </BorderPane>

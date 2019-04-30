@@ -1,8 +1,63 @@
 .header {
-    -fx-min-height: 30px;
     -fx-background-color: midnightblue;
-    -fx-font-size: 24px;
+    -fx-min-width: 100%;
+    -fx-min-height: 30px;
+}
+
+.header Label {
+    -fx-font-size: 14px;
     -fx-padding: 10 25 10 5;
     -fx-font-weight: 700;
-    -fx-min-width: 100%;
+    -fx-text-fill: mintcream;
+}
+
+.message-to-send {
+    -fx-pref-width: 10000px;
+}
+
+.send-button {
+    -fx-min-width: 60px;
+}
+
+.root-pane {
+    /*-fx-background-color: mintcream;*/
+}
+
+.messages-box-scrollpane {
+    -fx-fit-to-height: true;
+    -fx-fit-to-width: true;
+}
+
+.messages-box {
+    -fx-background-color: mintcream;
+}
+
+MessageControl {
+    -fx-alignment: top-center;
+}
+
+.messages-box Label {
+    -fx-text-fill: black;
+}
+
+.received-message {
+    -fx-background-color: white;
+    -fx-alignment: bottom-left;
+}
+
+.received-message Label {
+    -fx-text-fill: black;
+}
+
+.sent-message{
+    -fx-background-color: mintcream;
+    -fx-alignment: bottom-right;
+}
+
+.sent-message Label {
+    -fx-text-fill: midnightblue;
+}
+
+.messageDate Label {
+    -fx-text-fill: gray;
 }

@@ -23,7 +23,7 @@
                 </top>
             </BorderPane>
             <fx:include source="/com/communicator490/fxml/mainWindow/yourIdInfo.fxml"/>
-            <VBox styleClass="belowHeader, connect-box">
+            <VBox styleClass="below-header, connect-box">
                 <Label text="Connect:" styleClass="info-label, connect-label"/>
                 <HBox styleClass="their-ip">
                     <Label text="IP: " styleClass="info-label"/>
@@ -33,7 +33,7 @@
                     <Label text="Port: " styleClass="info-label"/>
                     <TextField text="" fx:id="theirPort"/>
                 </HBox>
-                <Button text="CONNECT"/>
+                <Button text="CONNECT" fx:id="connectButton"/>
             </VBox>
         </VBox>
         </top>

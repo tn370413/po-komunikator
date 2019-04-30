@@ -10,11 +10,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class MainWindowController extends MainWindowComponentController {
 
@@ -26,6 +30,9 @@ public class MainWindowController extends MainWindowComponentController {
 
     @FXML
     private TextField theirPort;
+
+    @FXML
+    private Button connectButton;
 
     public void setStage(Stage stage) {
         MainWindowComponentController.mainWindowStage = stage;
@@ -43,7 +50,15 @@ public class MainWindowController extends MainWindowComponentController {
         });
         theirIp.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("(\\d*\\.)*")) {
-                theirIp.setText(newValue.replaceAll("[^(\\d*\\.)]", ""));
+                theirIp.setText(newValue.replaceAll("[^(\\d*.)]", ""));
+            }
+        });
+
+        connectButton.setOnMouseClicked(mouseEvent -> {
+            try { // TODO add conversation to list in Communicator
+                openConversationWindow(new Conversation(InetAddress.getByName(theirIp.getText()), Integer.parseInt(theirPort.getText())));
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
             }
         });
     }

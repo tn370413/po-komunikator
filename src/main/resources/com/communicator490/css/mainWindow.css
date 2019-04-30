@@ -14,7 +14,7 @@
     -fx-min-width: 100%;
 }
 
-.belowHeader {
+.below-header {
     -fx-padding: 10 5 10 5;
     -fx-background-color: mintcream;
     -fx-min-width: 100%;

@@ -47,7 +47,7 @@ public class Server {
         try {
             socket.send(packet);
         } catch (IOException e) {
-            e.printStackTrace(); // TODO
+            e.printStackTrace(); // TODO // TODO: Message might be too long
         }
     }
 }
