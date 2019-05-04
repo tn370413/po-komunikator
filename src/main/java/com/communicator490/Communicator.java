@@ -63,13 +63,25 @@ public class Communicator {
         server.stop();
     }
 
+    public void openConversation(String ip, int port) {
+        if (!conversationWindowControllers.containsKey(ip)) {
+            Conversation conversation = null;
+            try {
+                conversation = new Conversation(InetAddress.getByName(ip), port);
+            } catch (UnknownHostException e) {
+                e.printStackTrace(); // TODO
+            }
+            ConversationWindowController conversationWindowController = mainWindowController.openConversationWindow(conversation);
+            conversationWindowControllers.put(ip, conversationWindowController);
+        } else {
+            java.awt.Toolkit.getDefaultToolkit().beep();
+            // notify user & show conversation window
+        }
+    }
+
     public void receiveMessage(Message m) {
         InetAddress fromIP = m.getIp();
-        if (!conversationWindowControllers.containsKey(fromIP.getHostAddress())) {
-            Conversation conversation = new Conversation(fromIP, m.getPort());
-            ConversationWindowController conversationWindowController = mainWindowController.openConversationWindow(conversation);
-            conversationWindowControllers.put(fromIP.getHostAddress(), conversationWindowController);
-        }
+        openConversation(fromIP.getHostAddress(), m.getPort());
         conversationWindowControllers.get(fromIP.getHostAddress()).receiveMessage(m.getContent());
     }
 

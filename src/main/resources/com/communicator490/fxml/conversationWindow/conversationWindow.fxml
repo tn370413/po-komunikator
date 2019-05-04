@@ -26,9 +26,6 @@
 
             </TextField>
 
-            <TextField fx:id="messageToSendPortDebug" text="1024">
-
-            </TextField>
             <Button text="Send" fx:id="sendButton" styleClass="send-button">
 
             </Button>

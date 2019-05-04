@@ -1,5 +1,6 @@
 package com.communicator490.controllers.mainWindow;
 
+import com.communicator490.Communicator;
 import com.communicator490.communication.Conversation;
 import com.communicator490.controllers.conversationWindow.ConversationWindowController;
 import javafx.application.Platform;
@@ -12,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -38,28 +40,32 @@ public class MainWindowController extends MainWindowComponentController {
         MainWindowComponentController.mainWindowStage = stage;
         stage.setTitle("Komunikator490");
         stage.setOnCloseRequest(closeWindowHandler);
+
+
+        mainWindowStage.getScene().setOnKeyReleased(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                connectButton.fire();
+                keyEvent.consume();
+            }
+        }); // TODO set this on root element, not scene
     }
 
     public void initialize() {
-        // only allow numeric values as port and IP numbers
+        // only allow numeric values as port and IP numbers (maybe let use computer names for IP?)
 
         theirPort.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 theirPort.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
-        theirIp.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("(\\d*\\.)*")) {
-                theirIp.setText(newValue.replaceAll("[^(\\d*.)]", ""));
-            }
-        });
+//        theirIp.textProperty().addListener((observable, oldValue, newValue) -> {
+//            if (!newValue.matches("(\\d*\\.)*")) {
+//                theirIp.setText(newValue.replaceAll("[^(\\d*.)]", ""));
+//            }
+//        });
 
-        connectButton.setOnMouseClicked(mouseEvent -> {
-            try { // TODO add conversation to list in Communicator
-                openConversationWindow(new Conversation(InetAddress.getByName(theirIp.getText()), Integer.parseInt(theirPort.getText())));
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
+        connectButton.setOnAction(actionEvent -> {
+            Communicator.getInstance().openConversation(theirIp.getText(), Integer.parseInt(theirPort.getText()));
         });
     }
 

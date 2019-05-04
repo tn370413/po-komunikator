@@ -31,6 +31,7 @@ public class MessageController {
         messageDate.setText(dateFormat.format(now));
 
         messageContent.setText(this.content);
+        messageContent.setWrapText(true);
     }
 
     public String getText() {

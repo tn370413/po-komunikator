@@ -4,10 +4,13 @@ import com.communicator490.Communicator;
 import com.communicator490.communication.Conversation;
 import com.communicator490.communication.Message;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -22,9 +25,6 @@ public class ConversationWindowController {
     private TextField messageToSend;
 
     @FXML
-    private TextField messageToSendPortDebug;
-
-    @FXML
     private Button sendButton;
 
     private Stage stage;
@@ -36,10 +36,17 @@ public class ConversationWindowController {
     }
 
     public void initialize() {
-        sendButton.setOnMouseClicked(mouseEvent -> {
-            Message message = new Message(messageToSend.getText(), "127.0.0.1",
-                    Integer.parseInt(messageToSendPortDebug.getText()));
+        sendButton.setOnAction(actionEvent -> {
+            Message message = new Message(messageToSend.getText(), conversation.getForeignAddress(), conversation.getForeignPort());
             sendMessage(message);
+            messageToSend.setText("");
+        });
+
+        messageToSend.setOnKeyReleased(keyEvent -> {
+            if (keyEvent.getCode() == KeyCode.ENTER) {
+                sendButton.fire();
+                keyEvent.consume();
+            }
         });
     }
 

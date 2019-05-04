@@ -5,5 +5,5 @@
 
 <fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
     <Label styleClass="messageDate" fx:id="messageDate"/>
-    <Label styleClass="messageContent" fx:id="messageContent" wrapText="true"/>
+    <Label styleClass="messageContent" fx:id="messageContent"/>
 </fx:root>
