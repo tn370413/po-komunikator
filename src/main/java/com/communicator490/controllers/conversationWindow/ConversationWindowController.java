@@ -3,18 +3,19 @@ package com.communicator490.controllers.conversationWindow;
 import com.communicator490.Communicator;
 import com.communicator490.communication.Conversation;
 import com.communicator490.communication.Message;
+import com.communicator490.controllers.Controller;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
-public class ConversationWindowController {
+import java.io.IOException;
+
+public class ConversationWindowController extends Controller {
     @FXML
     private Label headerLabel;
 
@@ -31,8 +32,13 @@ public class ConversationWindowController {
     private Conversation conversation;
 
     private void sendMessage(Message message) {
-        Communicator.getInstance().sendMessage(message);
-        messagesOuterBoxController.displayNewMessage(message.getContent(), true);
+        try {
+            Communicator.getInstance().sendMessage(message);
+            messagesOuterBoxController.displayNewMessage(message.getContent(), "sent-message");
+        } catch (IOException e) {
+            messagesOuterBoxController.displayNewMessage(message.getContent(), "sent-message-failed");
+            handleWarning("Error sending message: " + e.getMessage());
+        }
     }
 
     public void initialize() {
@@ -59,16 +65,34 @@ public class ConversationWindowController {
     private EventHandler<WindowEvent> closeWindowHandler = windowEvent -> Communicator.getInstance().endConversation(this);
 
     public void receiveMessage(String content) {
-        messagesOuterBoxController.displayNewMessage(content, false);
-//        stage.sizeToScene();
+        messagesOuterBoxController.displayNewMessage(content, "received-message");
+        notifyUser();
+    }
+
+    private void notifyUser() {
+        java.awt.Toolkit.getDefaultToolkit().beep();
     }
 
     public void setConversation(Conversation conversation) {
         headerLabel.setText("Conversation with " + conversation.getForeignAddress() + String.format(" (port %d)", conversation.getForeignPort()));
         this.conversation = conversation;
+        this.stage.setTitle("Conversation with " + conversation.getForeignAddress());
     }
 
     public Conversation getConversation() {
         return conversation;
+    }
+
+    public void open() {
+        stage.setIconified(false);
+    }
+
+    private void handleWarning(String message) {
+        messagesOuterBoxController.displayNewMessage(message, "warning");
+    }
+
+    public void handleFatalError(String message) {
+        messagesOuterBoxController.displayNewMessage(message, "error");
+        sendButton.setOnAction(actionEvent -> {});
     }
 }

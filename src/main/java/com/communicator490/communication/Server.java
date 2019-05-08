@@ -37,17 +37,13 @@ public class Server {
         serverThread.start();
     }
 
-    public Server() throws SocketException { // TODO add method to kill server on closing the app
+    public Server() throws SocketException {
         start();
     }
 
-    public void sendMessage(Message message) {
+    public void sendMessage(Message message) throws IOException {
         byte[] buf = message.getContent().getBytes();
         DatagramPacket packet = new DatagramPacket(buf, buf.length, message.getIp(), message.getPort());
-        try {
-            socket.send(packet);
-        } catch (IOException e) {
-            e.printStackTrace(); // TODO // TODO: Message might be too long
-        }
+        socket.send(packet);
     }
 }

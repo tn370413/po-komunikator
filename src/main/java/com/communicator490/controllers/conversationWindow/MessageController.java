@@ -1,18 +1,17 @@
 package com.communicator490.controllers.conversationWindow;
 
-import javafx.beans.property.DoubleProperty;
+import com.communicator490.controllers.Controller;
 import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MessageController {
+public class MessageController extends Controller {
     @FXML
     private Label messageDate;
 

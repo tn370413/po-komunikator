@@ -35,6 +35,11 @@
                 </HBox>
                 <Button text="CONNECT" fx:id="connectButton"/>
             </VBox>
+            <BorderPane styleClass="below-header, footer">
+                <top>
+                    <Label fx:id="errorInfoLabel" id="EIL-note" text="Ready to connect"/>
+                </top>
+            </BorderPane>
         </VBox>
         </top>
     </BorderPane>

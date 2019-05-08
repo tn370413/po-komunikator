@@ -6,11 +6,13 @@ import com.communicator490.communication.Server;
 import com.communicator490.controllers.conversationWindow.ConversationWindowController;
 import com.communicator490.controllers.mainWindow.MainWindowController;
 
+import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Communicator {
     private Server server;
@@ -25,9 +27,9 @@ public class Communicator {
 
     private Communicator() {
         try {
-            this.server = new Server(); // TODO handle exception
+            this.server = new Server();
         } catch (SocketException e) {
-            System.out.println("FUCK");
+            handleFatalError("Can't start server: " + e.getMessage());
         }
     }
 
@@ -54,7 +56,7 @@ public class Communicator {
             socket.connect(InetAddress.getByName("8.8.8.8"), 10002);
             ip = socket.getLocalAddress().getHostAddress();
         } catch (UnknownHostException | SocketException e) {
-            e.printStackTrace();
+            handleWarning("Can't establish local IP: " + e.getMessage());
         }
         return ip;
     }
@@ -66,16 +68,19 @@ public class Communicator {
     public void openConversation(String ip, int port) {
         if (!conversationWindowControllers.containsKey(ip)) {
             Conversation conversation = null;
+            ConversationWindowController conversationWindowController = null;
             try {
                 conversation = new Conversation(InetAddress.getByName(ip), port);
+                conversationWindowController = mainWindowController.openConversationWindow(conversation);
             } catch (UnknownHostException e) {
-                e.printStackTrace(); // TODO
+                mainWindowController.handleWarning("Couldn't open conversation: " + e.getMessage());
             }
-            ConversationWindowController conversationWindowController = mainWindowController.openConversationWindow(conversation);
-            conversationWindowControllers.put(ip, conversationWindowController);
+
+            if (conversationWindowController != null) {
+                conversationWindowControllers.put(ip, conversationWindowController);
+            }
         } else {
-            java.awt.Toolkit.getDefaultToolkit().beep();
-            // notify user & show conversation window
+            conversationWindowControllers.get(ip).open();
         }
     }
 
@@ -89,7 +94,19 @@ public class Communicator {
         conversationWindowControllers.remove(windowController.getConversation().getForeignAddress());
     }
 
-    public void sendMessage(Message message) {
+    public void sendMessage(Message message) throws IOException {
         server.sendMessage(message);
+    }
+
+    public void handleFatalError(String message) {
+        for (Map.Entry<String, ConversationWindowController> entry : conversationWindowControllers.entrySet()) {
+            entry.getValue().handleFatalError(message);
+        }
+        mainWindowController.handleFatalError(message);
+        server.stop();
+    }
+
+    public void handleWarning(String message) {
+        mainWindowController.handleWarning(message);
     }
 }

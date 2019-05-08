@@ -61,3 +61,19 @@
     -fx-text-fill: midnightblue;
     -fx-font-weight: 700;
 }
+
+#EIL-note {
+    -fx-text-fill: midnightblue;
+    -fx-wrap-text: true;
+}
+
+#EIL-warning {
+    -fx-text-fill: crimson;
+    -fx-wrap-text: true;
+}
+
+#EIL-error {
+    -fx-text-fill: crimson;
+    -fx-font-weight: 700;
+    -fx-wrap-text: true;
+}

@@ -2,27 +2,26 @@ package com.communicator490.controllers.mainWindow;
 
 import com.communicator490.Communicator;
 import com.communicator490.communication.Conversation;
+import com.communicator490.controllers.Controller;
 import com.communicator490.controllers.conversationWindow.ConversationWindowController;
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
-public class MainWindowController extends MainWindowComponentController {
+public class MainWindowController extends Controller {
+
+    private Stage stage;
 
     @FXML
     private YourIdInfoController yourIdInfoControlController;
@@ -36,18 +35,23 @@ public class MainWindowController extends MainWindowComponentController {
     @FXML
     private Button connectButton;
 
+    @FXML
+    private Label errorInfoLabel;
+
     public void setStage(Stage stage) {
-        MainWindowComponentController.mainWindowStage = stage;
+        this.stage = stage;
         stage.setTitle("Komunikator490");
         stage.setOnCloseRequest(closeWindowHandler);
 
-
-        mainWindowStage.getScene().setOnKeyReleased(keyEvent -> {
+        stage.getScene().setOnKeyReleased(keyEvent -> {
             if (keyEvent.getCode() == KeyCode.ENTER) {
                 connectButton.fire();
                 keyEvent.consume();
             }
         }); // TODO set this on root element, not scene
+
+        // prevent resizing of scene because of footer
+        errorInfoLabel.setPrefWidth(stage.getWidth());
     }
 
     public void initialize() {
@@ -83,11 +87,39 @@ public class MainWindowController extends MainWindowComponentController {
             conversationWindowController.setConversation(conversation);
             stage.setScene(new Scene(root));
             stage.show();
+
+            note("Opened conversation with " + conversation.getForeignAddress());
         } catch (IOException e) {
-            e.printStackTrace();
-            conversationWindowController = null; // TODO handle error
+            handleWarning("Coudn't open conversation: " + e.getMessage());
+
+            conversationWindowController = null;
         }
         return conversationWindowController;
     }
 
+    public void note(String message) {
+        errorInfoLabel.setText(message);
+        errorInfoLabel.setId("EIL-note");
+        stage.sizeToScene();
+    }
+
+    public void handleFatalError(String message) {
+        errorInfoLabel.setText(message);
+        errorInfoLabel.setId("EIL-error");
+
+        theirIp.setVisible(false);
+        theirPort.setVisible(false);
+        connectButton.setText("EXIT"); // can be done prettier but good enough for this version
+        connectButton.setOnAction(actionEvent -> {
+            Platform.exit();
+        });
+
+        stage.sizeToScene();
+    }
+
+    public void handleWarning(String message) {
+        errorInfoLabel.setText(message);
+        errorInfoLabel.setId("EIL-warning");
+        stage.sizeToScene();
+    }
 }

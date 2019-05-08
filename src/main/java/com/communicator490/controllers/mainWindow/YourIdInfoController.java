@@ -1,12 +1,13 @@
 package com.communicator490.controllers.mainWindow;
 
+import com.communicator490.controllers.Controller;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
-public class YourIdInfoController extends MainWindowComponentController {
+public class YourIdInfoController extends Controller {
     @FXML
     private Label yourIPText;
 

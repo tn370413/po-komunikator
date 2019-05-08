@@ -56,7 +56,7 @@ MessageControl .messageDate {
     -fx-text-alignment: left;
 }
 
-.sent-message{
+.sent-message, .sent-message-failed {
     -fx-background-color: mintcream;
     -fx-alignment: bottom-right;
 }
@@ -66,10 +66,30 @@ MessageControl .messageDate {
     -fx-text-alignment: right;
 }
 
+.sent-message-failed .messageContent {
+    -fx-fill: gray;
+    -fx-text-alignment: right;
+}
+
 .greeting .messageContent {
     -fx-fill: gray;
 }
 
 .messageDate {
     -fx-text-fill: gray;
+}
+
+.error, .warning {
+    -fx-alignment: top-center;
+}
+
+.error .messageContent {
+    -fx-fill: crimson;
+    -fx-font-weight: 700;
+    -fx-text-alignment: center;
+}
+
+.warning .messageContent {
+    -fx-fill: crimson;
+    -fx-text-alignment: center;
 }
