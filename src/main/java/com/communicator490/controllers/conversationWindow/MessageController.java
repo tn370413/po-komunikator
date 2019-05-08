@@ -1,8 +1,12 @@
 package com.communicator490.controllers.conversationWindow;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.text.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -13,7 +17,7 @@ public class MessageController {
     private Label messageDate;
 
     @FXML
-    private Label messageContent;
+    private Text messageContent;
 
     private String content;
 
@@ -31,7 +35,10 @@ public class MessageController {
         messageDate.setText(dateFormat.format(now));
 
         messageContent.setText(this.content);
-        messageContent.setWrapText(true);
+    }
+
+    public void bindWidth(ReadOnlyDoubleProperty widthProperty) {
+        messageContent.wrappingWidthProperty().bind(widthProperty.subtract(100));
     }
 
     public String getText() {

@@ -35,10 +35,11 @@
 MessageControl {
     -fx-alignment: top-center;
     -fx-padding: 5 15 5 15;
+    -fx-text-alignment: center;
 }
 
 MessageControl .messageDate {
-    -fx-padding: 0 0 5 0;
+    -fx-padding: 0 5 5 5;
 }
 
 .messages-box Label {
@@ -50,8 +51,9 @@ MessageControl .messageDate {
     -fx-alignment: bottom-left;
 }
 
-.received-message Label {
-    -fx-text-fill: black;
+.received-message .messageContent {
+    -fx-fill: black;
+    -fx-text-alignment: left;
 }
 
 .sent-message{
@@ -59,10 +61,15 @@ MessageControl .messageDate {
     -fx-alignment: bottom-right;
 }
 
-.sent-message Label {
-    -fx-text-fill: midnightblue;
+.sent-message .messageContent {
+    -fx-fill: midnightblue;
+    -fx-text-alignment: right;
 }
 
-.messageDate Label {
+.greeting .messageContent {
+    -fx-fill: gray;
+}
+
+.messageDate {
     -fx-text-fill: gray;
 }

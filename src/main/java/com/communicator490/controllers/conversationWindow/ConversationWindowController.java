@@ -60,7 +60,7 @@ public class ConversationWindowController {
 
     public void receiveMessage(String content) {
         messagesOuterBoxController.displayNewMessage(content, false);
-        stage.sizeToScene();
+//        stage.sizeToScene();
     }
 
     public void setConversation(Conversation conversation) {

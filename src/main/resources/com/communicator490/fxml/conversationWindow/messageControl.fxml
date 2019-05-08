@@ -3,7 +3,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.text.Text?>
 <fx:root type="javafx.scene.layout.VBox" xmlns:fx="http://javafx.com/fxml">
     <Label styleClass="messageDate" fx:id="messageDate"/>
-    <Label styleClass="messageContent" fx:id="messageContent"/>
+    <Text styleClass="messageContent" fx:id="messageContent"/>
 </fx:root>

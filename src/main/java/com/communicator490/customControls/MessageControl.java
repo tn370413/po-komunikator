@@ -7,6 +7,8 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 
 public class MessageControl extends VBox {
+    private MessageController controller;
+
     public MessageControl() {
         this("HELLO YOU FUCKS");
     }
@@ -14,12 +16,17 @@ public class MessageControl extends VBox {
     public MessageControl(String content) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/communicator490/fxml/conversationWindow/messageControl.fxml"));
         fxmlLoader.setRoot(this);
-        fxmlLoader.setController(new MessageController(content));
+        controller = new MessageController(content);
+        fxmlLoader.setController(controller);
 
         try {
             fxmlLoader.load();
         } catch (IOException exception) {
             throw new RuntimeException(exception);
         }
+    }
+
+    public MessageController getController() {
+        return controller;
     }
 }
