@@ -1,6 +1,7 @@
 package com.communicator490.controllers.mainWindow;
 
 import com.communicator490.Communicator;
+import com.communicator490.Severity;
 import com.communicator490.communication.Conversation;
 import com.communicator490.controllers.Controller;
 import com.communicator490.controllers.conversationWindow.ConversationWindowController;
@@ -68,9 +69,7 @@ public class MainWindowController extends Controller {
 //            }
 //        });
 
-        connectButton.setOnAction(actionEvent -> {
-            Communicator.getInstance().openConversation(theirIp.getText(), Integer.parseInt(theirPort.getText()));
-        });
+        connectButton.setOnAction(actionEvent -> Communicator.getInstance().openConversation(theirIp.getText(), Integer.parseInt(theirPort.getText())));
     }
 
     private EventHandler<WindowEvent> closeWindowHandler = windowEvent -> communicator.stop();
@@ -90,36 +89,36 @@ public class MainWindowController extends Controller {
 
             note("Opened conversation with " + conversation.getForeignAddress());
         } catch (IOException e) {
-            handleWarning("Coudn't open conversation: " + e.getMessage());
-
+            handleWarning("Couldn't open conversation: " + e.getMessage());
             conversationWindowController = null;
         }
         return conversationWindowController;
     }
 
-    public void note(String message) {
+    private void note(String message) {
         errorInfoLabel.setText(message);
         errorInfoLabel.setId("EIL-note");
         stage.sizeToScene();
     }
 
-    public void handleFatalError(String message) {
-        errorInfoLabel.setText(message);
+    public void handleFatalError(String content) {
+        errorInfoLabel.setText(content);
         errorInfoLabel.setId("EIL-error");
 
         theirIp.setVisible(false);
         theirPort.setVisible(false);
         connectButton.setText("EXIT"); // can be done prettier but good enough for this version
-        connectButton.setOnAction(actionEvent -> {
-            Platform.exit();
-        });
+        connectButton.setOnAction(actionEvent -> Platform.exit());
 
         stage.sizeToScene();
+        Communicator.getInstance().getLogger().log(stage.getTitle() + ": " + content, Severity.ERROR);
     }
 
-    public void handleWarning(String message) {
-        errorInfoLabel.setText(message);
+    public void handleWarning(String content) {
+        errorInfoLabel.setText(content);
         errorInfoLabel.setId("EIL-warning");
         stage.sizeToScene();
+
+        Communicator.getInstance().getLogger().log(stage.getTitle() + ": " + content, Severity.WARNING);
     }
 }

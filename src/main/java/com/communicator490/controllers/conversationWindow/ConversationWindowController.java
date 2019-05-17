@@ -1,6 +1,7 @@
 package com.communicator490.controllers.conversationWindow;
 
 import com.communicator490.Communicator;
+import com.communicator490.Severity;
 import com.communicator490.communication.*;
 import com.communicator490.controllers.Controller;
 import javafx.event.EventHandler;
@@ -31,13 +32,9 @@ public class ConversationWindowController extends Controller {
     private Stage stage;
     private Conversation conversation;
 
-    private void sendMessage(Message message) {
+    private void sendMessage(MessageToSend message) {
         messagesOuterBoxController.displayNewMessage(message);
-        try {
-            Communicator.getInstance().sendMessage(message, this);
-        } catch (IOException e) {
-            handleWarning("Error sending message: " + e.getMessage());
-        }
+        Communicator.getInstance().sendMessage(message, this);
     }
 
     public void handleSendError(Message message, String reason) {
@@ -50,7 +47,7 @@ public class ConversationWindowController extends Controller {
 
     public void initialize() {
         sendButton.setOnAction(actionEvent -> {
-            Message message = null;
+            MessageToSend message = null;
             try {
                 message = new MessageToSend(messageToSend.getText(), conversation.getForeignAddress(), conversation.getForeignPort());
             } catch (UnknownHostException e) {
@@ -82,13 +79,14 @@ public class ConversationWindowController extends Controller {
     }
 
     private void notifyUser() {
-        java.awt.Toolkit.getDefaultToolkit().beep();
+        Communicator.getInstance().notifyUser();
     }
 
     public void setConversation(Conversation conversation) {
         headerLabel.setText("Conversation with " + conversation.getForeignAddress() + String.format(" (port %d)", conversation.getForeignPort()));
         this.conversation = conversation;
-        this.stage.setTitle("Conversation with " + conversation.getForeignAddress());
+        stage.setTitle("Conversation with " + conversation.getForeignAddress());
+        Communicator.getInstance().getLogger().log(stage.getTitle() + ": Conversation start", Severity.NOTE);
     }
 
     public Conversation getConversation() {
@@ -102,11 +100,17 @@ public class ConversationWindowController extends Controller {
     private void handleWarning(String content) {
         InfoMessage infoMessage = new InfoMessage(content, Severity.WARNING);
         messagesOuterBoxController.displayNewMessage(infoMessage);
+        Communicator.getInstance().getLogger().log(stage.getTitle() + ": " + content, Severity.WARNING);
     }
 
     public void handleFatalError(String content) {
         InfoMessage message = new InfoMessage(content, Severity.ERROR);
         messagesOuterBoxController.displayNewMessage(message);
         sendButton.setOnAction(actionEvent -> {});
+        Communicator.getInstance().getLogger().log(stage.getTitle() + ": " + content, Severity.ERROR);
+    }
+
+    public String getTitle() {
+        return stage.getTitle();
     }
 }

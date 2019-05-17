@@ -3,10 +3,12 @@ package com.communicator490;
 import com.communicator490.communication.Conversation;
 import com.communicator490.communication.Message;
 import com.communicator490.communication.MessageReceived;
+import com.communicator490.communication.MessageToSend;
 import com.communicator490.communication.Server;
 import com.communicator490.controllers.conversationWindow.ConversationWindowController;
 import com.communicator490.controllers.conversationWindow.MessageController;
 import com.communicator490.controllers.mainWindow.MainWindowController;
+import com.communicator490.logger.Logger;
 
 import java.io.IOException;
 import java.net.DatagramSocket;
@@ -16,10 +18,9 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-// TODO: logger
-
 public class Communicator {
     private Server server;
+    private Logger logger;
     private MainWindowController mainWindowController;
     private HashMap<String, ConversationWindowController> conversationWindowControllers = new HashMap<>();
     private HashMap<Message, ConversationWindowController> messagesToControllersMap = new HashMap<>();
@@ -36,6 +37,8 @@ public class Communicator {
         } catch (SocketException e) {
             handleFatalError("Can't start server: " + e.getMessage());
         }
+        this.logger = new Logger();
+        logger.log("Communicator start", Severity.NOTE);
     }
 
     public void setMainWindowController(MainWindowController mainWindowController) {
@@ -68,6 +71,8 @@ public class Communicator {
 
     public void stop() {
         server.stop();
+        logger.log("Communicator stop", Severity.NOTE);
+        logger.stop();
     }
 
     public void openConversation(String ip, int port) {
@@ -91,15 +96,17 @@ public class Communicator {
 
     public void receiveMessage(MessageReceived m) {
         InetAddress fromIP = m.getIp();
+        logger.log("Message from: " + fromIP.getHostAddress() + " -- received", Severity.NOTE);
         openConversation(fromIP.getHostAddress(), m.getPort());
         conversationWindowControllers.get(fromIP.getHostAddress()).receiveMessage(m);
     }
 
     public void endConversation(ConversationWindowController windowController) {
+        Communicator.getInstance().getLogger().log(windowController.getTitle() + ": Conversation stop", Severity.NOTE);
         conversationWindowControllers.remove(windowController.getConversation().getForeignAddress());
     }
 
-    public void sendMessage(Message message, ConversationWindowController windowController) throws IOException {
+    public void sendMessage(MessageToSend message, ConversationWindowController windowController) {
         server.sendMessage(message);
         messagesToControllersMap.put(message, windowController);
     }
@@ -108,21 +115,34 @@ public class Communicator {
         for (Map.Entry<String, ConversationWindowController> entry : conversationWindowControllers.entrySet()) {
             entry.getValue().handleFatalError(message);
         }
+        logger.log(message, Severity.ERROR);
         mainWindowController.handleFatalError(message);
         server.stop();
     }
 
-    private void handleWarning(String message) {
+    public void handleWarning(String message) {
+        logger.log(message, Severity.WARNING);
         mainWindowController.handleWarning(message);
+        notifyUser();
     }
 
-    public void handleMessageFailure(Message message, String reason) {
+    public void handleMessageFailure(MessageToSend message, String reason) {
+        logger.log("Message to: " + message.getIp().getHostAddress() + " -- " + reason, Severity.WARNING);
         ConversationWindowController conversationWindowController = messagesToControllersMap.remove(message);
         conversationWindowController.handleSendError(message, reason);
     }
 
     public void handleMessageSuccess(Message message) {
+        logger.log("Message to: " + message.getIp().getHostAddress() + " -- sent", Severity.NOTE);
         ConversationWindowController conversationWindowController = messagesToControllersMap.remove(message);
         conversationWindowController.handleSendSuccess(message);
+    }
+
+    public void notifyUser() {
+        java.awt.Toolkit.getDefaultToolkit().beep();
+    }
+
+    public Logger getLogger() {
+        return logger;
     }
 }

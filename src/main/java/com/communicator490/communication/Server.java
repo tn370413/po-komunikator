@@ -8,7 +8,6 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 public class Server {
-
     private DatagramSocket socket;
     private int internalPort = 490;
     private ServerThread serverThread;
@@ -49,7 +48,7 @@ public class Server {
         start();
     }
 
-    public void sendMessage(Message message) {
+    public void sendMessage(MessageToSend message) {
         sendingThread.send(message);
     }
 }

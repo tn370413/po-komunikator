@@ -6,26 +6,25 @@ import javafx.application.Platform;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketException;
 import java.util.LinkedList;
 
 public class SendingMessagesThread extends Thread {
     private DatagramSocket socket;
-    private LinkedList<Message> messages = new LinkedList<>();
+    private LinkedList<MessageToSend> messages = new LinkedList<>();
 
     public SendingMessagesThread(DatagramSocket socket, String name) {
         super(name);
         this.socket = socket;
     }
 
-    public void send(Message message) {
+    public void send(MessageToSend message) {
         this.messages.add(message);
     }
 
     public void run() {
         while (!Thread.interrupted()) {
             while (!messages.isEmpty() && !Thread.interrupted()) {
-                Message message = messages.removeFirst();
+                MessageToSend message = messages.removeFirst();
                 try {
                     byte[] buf = message.getContent().getBytes();
                     DatagramPacket packet = new DatagramPacket(buf, buf.length, message.getIp(), message.getPort());

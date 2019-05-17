@@ -1,4 +1,4 @@
-package com.communicator490.communication;
+package com.communicator490;
 
 public enum Severity {
     NOTE,

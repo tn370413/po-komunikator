@@ -1,13 +1,10 @@
 package com.communicator490.controllers.conversationWindow;
 
-import com.communicator490.Communicator;
+import com.communicator490.Severity;
 import com.communicator490.communication.*;
 import com.communicator490.controllers.Controller;
 import com.communicator490.customControls.MessageControl;
-import javafx.application.Platform;
-import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 
