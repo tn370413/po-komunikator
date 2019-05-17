@@ -1,15 +1,13 @@
 package com.communicator490.communication;
 
-import com.communicator490.Communicator;
-
-import java.io.IOException;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+// Class that represents all networking operations of the Communicator
+
 public class Server {
     private DatagramSocket socket;
-    private int internalPort = 490;
+    private int internalPort = 490; // internal in opposition to externalPort visible in the outer internet
     private ServerThread serverThread;
     private SendingMessagesThread sendingThread;
 
@@ -24,6 +22,7 @@ public class Server {
     }
 
     private void start() throws SocketException {
+//        searching for an available port to open the UDP socket
         boolean success = false;
         while (!success && this.internalPort < 65536) {
             try {
@@ -37,6 +36,7 @@ public class Server {
             throw new SocketException("Can't establish server: no free port?");
         }
 
+//        once we have a port (and a socket), we can start threads for receiving and sending messages
         serverThread = new ServerThread(socket, String.format("ServerOn%dThread", internalPort));
         serverThread.start();
 

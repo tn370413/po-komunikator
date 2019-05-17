@@ -8,8 +8,13 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.LinkedList;
 
+// Separate thread to run network operations without blocking the main application
+// specifically: to send messages to the network
+
 public class SendingMessagesThread extends Thread {
     private DatagramSocket socket;
+//    FIFO so that the order of messages is more correct than not
+//    (since we use UDP it is not guaranteed anyway)
     private LinkedList<MessageToSend> messages = new LinkedList<>();
 
     public SendingMessagesThread(DatagramSocket socket, String name) {
@@ -26,6 +31,8 @@ public class SendingMessagesThread extends Thread {
             while (!messages.isEmpty() && !Thread.interrupted()) {
                 MessageToSend message = messages.removeFirst();
                 try {
+//                    Message packet consists just of the content of the message
+//                    We assume the message will fit in a DatagramPacket
                     byte[] buf = message.getContent().getBytes();
                     DatagramPacket packet = new DatagramPacket(buf, buf.length, message.getIp(), message.getPort());
                     socket.send(packet);

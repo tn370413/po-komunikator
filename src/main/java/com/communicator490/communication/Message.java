@@ -1,7 +1,10 @@
 package com.communicator490.communication;
 
 import java.net.InetAddress;
-import java.net.UnknownHostException;
+
+// class that represents a single message
+// it is abstract since we need to differentiate between various types of messages
+// sent message =/= received message =/= meta-message from communicator to user
 
 public abstract class Message {
     protected String content;

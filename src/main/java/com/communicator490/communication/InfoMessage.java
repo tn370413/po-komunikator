@@ -2,6 +2,8 @@ package com.communicator490.communication;
 
 import com.communicator490.Severity;
 
+// this class represents a meta-message from the application to the user
+
 public class InfoMessage extends Message {
     private Severity severity;
 

@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
+// Separate thread to run network, blocking operations without blocking the main application
+// specifically: to receive messages from the network
+
 public class ServerThread extends Thread {
     private DatagramSocket socket;
 

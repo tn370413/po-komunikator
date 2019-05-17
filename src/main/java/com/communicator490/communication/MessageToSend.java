@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class MessageToSend extends Message {
-
     public MessageToSend(String content, InetAddress ip, int port) {
         this.content = content;
         this.ip = ip;
@@ -16,5 +15,4 @@ public class MessageToSend extends Message {
         this.ip = InetAddress.getByName(ip);
         this.port = port;
     }
-
 }
