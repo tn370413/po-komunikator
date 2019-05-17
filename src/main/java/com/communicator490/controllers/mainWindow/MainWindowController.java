@@ -40,6 +40,8 @@ public class MainWindowController extends Controller {
     private Label errorInfoLabel;
 
     public void setStage(Stage stage) {
+//        this method MUST be called immediately after creating the window
+//        since all other methods assume the stage is known
         this.stage = stage;
         stage.setTitle("Komunikator490");
         stage.setOnCloseRequest(closeWindowHandler);
@@ -51,31 +53,30 @@ public class MainWindowController extends Controller {
             }
         }); // TODO set this on root element, not scene
 
-        // prevent resizing of scene because of footer
+//        prevent resizing of scene because of footer
         errorInfoLabel.setPrefWidth(stage.getWidth());
     }
 
     public void initialize() {
-        // only allow numeric values as port and IP numbers (maybe let use computer names for IP?)
+//        only allow numeric values as port
 
         theirPort.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) {
                 theirPort.setText(newValue.replaceAll("[^\\d]", ""));
             }
         });
-//        theirIp.textProperty().addListener((observable, oldValue, newValue) -> {
-//            if (!newValue.matches("(\\d*\\.)*")) {
-//                theirIp.setText(newValue.replaceAll("[^(\\d*.)]", ""));
-//            }
-//        });
+
+//        we don't restrict IP values, since it's a nice feature to also be able to use computer names
+//        when the user enters an invalid IP, they will be notified accordingly on connection attempt
 
         connectButton.setOnAction(actionEvent -> Communicator.getInstance().openConversation(theirIp.getText(), Integer.parseInt(theirPort.getText())));
     }
 
     private EventHandler<WindowEvent> closeWindowHandler = windowEvent -> communicator.stop();
 
-
     public ConversationWindowController openConversationWindow(Conversation conversation) {
+//        basically same code as in Main class to open mainWindow
+
         ConversationWindowController conversationWindowController;
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/communicator490/fxml/conversationWindow/conversationWindow.fxml"));
@@ -87,6 +88,7 @@ public class MainWindowController extends Controller {
             stage.setScene(new Scene(root));
             stage.show();
 
+            // note to show in the main window, conversation can log about its opening itself
             note("Opened conversation with " + conversation.getForeignAddress());
         } catch (IOException e) {
             handleWarning("Couldn't open conversation: " + e.getMessage());
@@ -105,6 +107,8 @@ public class MainWindowController extends Controller {
         errorInfoLabel.setText(content);
         errorInfoLabel.setId("EIL-error");
 
+//        on fatal error we only allow user to leave the application
+//        we don't do it for him to let him read what the error is
         theirIp.setVisible(false);
         theirPort.setVisible(false);
         connectButton.setText("EXIT"); // can be done prettier but good enough for this version

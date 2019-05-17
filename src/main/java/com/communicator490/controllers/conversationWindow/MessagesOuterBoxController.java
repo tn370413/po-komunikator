@@ -19,13 +19,14 @@ public class MessagesOuterBoxController extends Controller {
 
     private HashMap<Message, MessageController> messageControllersMap = new HashMap<>();
 
-    // Mesages → MessageControls HashMap?
-
     public void initialize() {
+//        inspired by Facebook's "Now you can talk with XYZ"
         MessageControl greeting = new MessageControl("Hello!");
         greeting.getStyleClass().add("greeting");
         messagesBox.getChildren().add(greeting);
 
+//        for some reason autoscroll set on adding an element to the box, or manually in displayNewMessage
+//        doesn't work, fortunately this works
         messagesBox.heightProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     messagesBox.layout();
@@ -37,24 +38,13 @@ public class MessagesOuterBoxController extends Controller {
     public void displayNewMessage(Message message) {
         String content = message.getContent();
         MessageControl messageControl = new MessageControl(content);
-        String style = "note";
-        if (message instanceof MessageReceived) {
-            style = "received-message";
-        } else if (message instanceof MessageToSend) {
-            style = "sent-message";
-        } else if (message instanceof InfoMessage) {
-            Severity severity = ((InfoMessage) message).getSeverity();
-            if (severity == Severity.NOTE) {
-                style = "note";
-            } else if (severity == Severity.WARNING) {
-                style = "warning";
-            } else if (severity == Severity.ERROR) {
-                style = "error";
-            }
-        }
-        messageControl.getStyleClass().add(style);
+
+        messageControl.getStyleClass().add(MessageController.getStyle(message));
+
         MessageController messageController = messageControl.getController();
         messageControllersMap.put(message, messageController);
+
+//        this is needed to make message text wrap correctly
         messageController.bindWidth(messagesBoxScrollPane.widthProperty());
         messagesBox.getChildren().add(messageControl);
     }

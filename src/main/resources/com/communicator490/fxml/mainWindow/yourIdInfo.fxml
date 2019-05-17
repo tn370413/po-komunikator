@@ -4,6 +4,11 @@
 <?import javafx.scene.layout.*?>
 
 <?import java.net.URL?>
+
+
+<!-- This file defines part of the main window where information on users' IP and port are displayed.
+    This is so that he can give other people this info and get contacted by them. -->
+
 <VBox xmlns:fx="http://javafx.com/fxml" fx:controller="com.communicator490.controllers.mainWindow.YourIdInfoController"
       styleClass="your-id-info,below-header" fx:id="yourIdInfoVBox">
     <HBox>

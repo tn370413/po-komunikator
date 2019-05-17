@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 
+// class to control the part of the main window that shows user's own IP and port
+
 public class YourIdInfoController extends Controller {
     @FXML
     private Label yourIPText;
@@ -28,8 +30,9 @@ public class YourIdInfoController extends Controller {
         toggleToLocal();
 
         toggleNetworkToLocalLabel.setOnMouseClicked(toggleToLocalHandler);
-        toggleNetworkToExternalLabel.setOnMouseClicked(toggleToExternalHandler);
+//        toggleNetworkToExternalLabel.setOnMouseClicked(toggleToExternalHandler);
 
+//        when communication through NAT is implemented it will be possible to switch between local and external IP
         yourIdInfoVBox.getChildren().remove(toggleNetworkToExternalLabel); // TODO external IP not implemented yet
     }
 
@@ -39,12 +42,12 @@ public class YourIdInfoController extends Controller {
         replace(toggleNetworkToLocalLabel, toggleNetworkToExternalLabel, yourIdInfoVBox.getChildren());
     }
 
-    private void toggleToExternal() {
-        yourIPText.setText(communicator.getIp());
-        yourPortText.setText(String.format("%d", communicator.getPort()));
-        replace(toggleNetworkToExternalLabel, toggleNetworkToLocalLabel, yourIdInfoVBox.getChildren());
-    }
+//    private void toggleToExternal() {
+//        yourIPText.setText(communicator.getIp());
+//        yourPortText.setText(String.format("%d", communicator.getPort()));
+//        replace(toggleNetworkToExternalLabel, toggleNetworkToLocalLabel, yourIdInfoVBox.getChildren());
+//    }
 
     private EventHandler<MouseEvent> toggleToLocalHandler = mouseEvent -> toggleToLocal();
-    private EventHandler<MouseEvent> toggleToExternalHandler = mouseEvent -> toggleToExternal();
+//    private EventHandler<MouseEvent> toggleToExternalHandler = mouseEvent -> toggleToExternal();
 }

@@ -19,10 +19,6 @@
     -fx-min-width: 60px;
 }
 
-.root-pane {
-    /*-fx-background-color: mintcream;*/
-}
-
 .messages-box-scrollpane {
     -fx-fit-to-height: true;
     -fx-fit-to-width: true;

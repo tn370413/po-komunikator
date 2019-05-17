@@ -3,11 +3,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<!-- Auxilliary box for holding MessageControls in Conversation window -->
+
 <ScrollPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:id="messagesBoxScrollPane"
             fx:controller="com.communicator490.controllers.conversationWindow.MessagesOuterBoxController"
             styleClass="messages-box-scrollpane">
-    <VBox fx:id="messagesBox" styleClass="messages-box">
-    </VBox>
+    <VBox fx:id="messagesBox" styleClass="messages-box"/>
 </ScrollPane>

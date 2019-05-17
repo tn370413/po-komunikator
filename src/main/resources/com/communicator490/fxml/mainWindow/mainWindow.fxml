@@ -11,7 +11,7 @@
 <?import javafx.scene.control.TextField?>
 
 <?import java.net.URL?>
-<?import javafx.scene.layout.Pane?>
+
 <GridPane fx:controller="com.communicator490.controllers.mainWindow.MainWindowController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
     <BorderPane>
@@ -27,15 +27,16 @@
                 <Label text="Connect:" styleClass="info-label, connect-label"/>
                 <HBox styleClass="their-ip">
                     <Label text="IP: " styleClass="info-label"/>
-                    <TextField text="" fx:id="theirIp"/>
+                    <TextField fx:id="theirIp"/>
                 </HBox>
                 <HBox styleClass="their-port">
                     <Label text="Port: " styleClass="info-label"/>
-                    <TextField text="" fx:id="theirPort"/>
+                    <TextField fx:id="theirPort"/>
                 </HBox>
                 <Button text="CONNECT" fx:id="connectButton"/>
             </VBox>
-            <BorderPane styleClass="below-header, footer">
+            <BorderPane styleClass="below-header">
+<!--                place where we will show communicates (notes, warnings, errors) to the user -->
                 <top>
                     <Label fx:id="errorInfoLabel" id="EIL-note" text="Ready to connect"/>
                 </top>

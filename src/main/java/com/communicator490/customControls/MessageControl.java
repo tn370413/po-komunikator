@@ -6,6 +6,8 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
+// this custom JavaFX control makes adding new messages to MessagesBox easy
+
 public class MessageControl extends VBox {
     private MessageController controller;
 
