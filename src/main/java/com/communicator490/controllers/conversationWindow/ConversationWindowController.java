@@ -1,8 +1,7 @@
 package com.communicator490.controllers.conversationWindow;
 
 import com.communicator490.Communicator;
-import com.communicator490.communication.Conversation;
-import com.communicator490.communication.Message;
+import com.communicator490.communication.*;
 import com.communicator490.controllers.Controller;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 public class ConversationWindowController extends Controller {
     @FXML
@@ -32,18 +32,30 @@ public class ConversationWindowController extends Controller {
     private Conversation conversation;
 
     private void sendMessage(Message message) {
+        messagesOuterBoxController.displayNewMessage(message);
         try {
-            Communicator.getInstance().sendMessage(message);
-            messagesOuterBoxController.displayNewMessage(message.getContent(), "sent-message");
+            Communicator.getInstance().sendMessage(message, this);
         } catch (IOException e) {
-            messagesOuterBoxController.displayNewMessage(message.getContent(), "sent-message-failed");
             handleWarning("Error sending message: " + e.getMessage());
         }
     }
 
+    public void handleSendError(Message message, String reason) {
+        messagesOuterBoxController.handleSendError(message, reason);
+    }
+
+    public void handleSendSuccess(Message message) {
+        messagesOuterBoxController.handleSendSuccess(message);
+    }
+
     public void initialize() {
         sendButton.setOnAction(actionEvent -> {
-            Message message = new Message(messageToSend.getText(), conversation.getForeignAddress(), conversation.getForeignPort());
+            Message message = null;
+            try {
+                message = new MessageToSend(messageToSend.getText(), conversation.getForeignAddress(), conversation.getForeignPort());
+            } catch (UnknownHostException e) {
+                handleWarning(e.getMessage());
+            }
             sendMessage(message);
             messageToSend.setText("");
         });
@@ -64,8 +76,8 @@ public class ConversationWindowController extends Controller {
 
     private EventHandler<WindowEvent> closeWindowHandler = windowEvent -> Communicator.getInstance().endConversation(this);
 
-    public void receiveMessage(String content) {
-        messagesOuterBoxController.displayNewMessage(content, "received-message");
+    public void receiveMessage(MessageReceived message) {
+        messagesOuterBoxController.displayNewMessage(message);
         notifyUser();
     }
 
@@ -87,12 +99,14 @@ public class ConversationWindowController extends Controller {
         stage.setIconified(false);
     }
 
-    private void handleWarning(String message) {
-        messagesOuterBoxController.displayNewMessage(message, "warning");
+    private void handleWarning(String content) {
+        InfoMessage infoMessage = new InfoMessage(content, Severity.WARNING);
+        messagesOuterBoxController.displayNewMessage(infoMessage);
     }
 
-    public void handleFatalError(String message) {
-        messagesOuterBoxController.displayNewMessage(message, "error");
+    public void handleFatalError(String content) {
+        InfoMessage message = new InfoMessage(content, Severity.ERROR);
+        messagesOuterBoxController.displayNewMessage(message);
         sendButton.setOnAction(actionEvent -> {});
     }
 }

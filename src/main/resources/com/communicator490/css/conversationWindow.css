@@ -79,7 +79,7 @@ MessageControl .messageDate {
     -fx-text-fill: gray;
 }
 
-.error, .warning {
+.error, .warning, .note {
     -fx-alignment: top-center;
 }
 
@@ -91,5 +91,10 @@ MessageControl .messageDate {
 
 .warning .messageContent {
     -fx-fill: crimson;
+    -fx-text-alignment: center;
+}
+
+.note .messageContent {
+    -fx-fill: gray;
     -fx-text-alignment: center;
 }

@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketException;
 
 public class ServerThread extends Thread {
     private DatagramSocket socket;
@@ -23,15 +22,12 @@ public class ServerThread extends Thread {
                 DatagramPacket packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
                 String received = new String(packet.getData(), 0, packet.getLength());
-                Message message = new Message(received, packet.getAddress(), packet.getPort());
+                MessageReceived message = new MessageReceived(received, packet.getAddress(), packet.getPort());
                 // Avoid throwing IllegalStateException by running from a non-JavaFX thread.
                 Platform.runLater(
-                    () -> {
-                        Communicator.getInstance().receiveMessage(message);
-                    }
+                    () -> Communicator.getInstance().receiveMessage(message)
                 );
             } catch (IOException e) {
-                //e.printStackTrace(); // TODO
                 Thread.currentThread().interrupt();
             }
         }

@@ -9,10 +9,6 @@ import java.io.IOException;
 public class MessageControl extends VBox {
     private MessageController controller;
 
-    public MessageControl() {
-        this("HELLO YOU FUCKS");
-    }
-
     public MessageControl(String content) {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/communicator490/fxml/conversationWindow/messageControl.fxml"));
         fxmlLoader.setRoot(this);

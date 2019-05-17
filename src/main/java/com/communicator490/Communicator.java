@@ -2,8 +2,10 @@ package com.communicator490;
 
 import com.communicator490.communication.Conversation;
 import com.communicator490.communication.Message;
+import com.communicator490.communication.MessageReceived;
 import com.communicator490.communication.Server;
 import com.communicator490.controllers.conversationWindow.ConversationWindowController;
+import com.communicator490.controllers.conversationWindow.MessageController;
 import com.communicator490.controllers.mainWindow.MainWindowController;
 
 import java.io.IOException;
@@ -14,10 +16,13 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: logger
+
 public class Communicator {
     private Server server;
     private MainWindowController mainWindowController;
     private HashMap<String, ConversationWindowController> conversationWindowControllers = new HashMap<>();
+    private HashMap<Message, ConversationWindowController> messagesToControllersMap = new HashMap<>();
 
     private static Communicator communicator = new Communicator();
 
@@ -38,7 +43,7 @@ public class Communicator {
     }
 
     public int getPort() {
-        return -1; // TODO
+        return -1; // TODO communication through NAT (external)
     }
 
     public int getInternalPort() {
@@ -46,7 +51,7 @@ public class Communicator {
     }
 
     public String getIp() {
-        return "???"; // TODO
+        return "???"; // TODO communication through NAT (external)
     }
 
     public String getInternalIp() {
@@ -67,7 +72,7 @@ public class Communicator {
 
     public void openConversation(String ip, int port) {
         if (!conversationWindowControllers.containsKey(ip)) {
-            Conversation conversation = null;
+            Conversation conversation;
             ConversationWindowController conversationWindowController = null;
             try {
                 conversation = new Conversation(InetAddress.getByName(ip), port);
@@ -84,21 +89,22 @@ public class Communicator {
         }
     }
 
-    public void receiveMessage(Message m) {
+    public void receiveMessage(MessageReceived m) {
         InetAddress fromIP = m.getIp();
         openConversation(fromIP.getHostAddress(), m.getPort());
-        conversationWindowControllers.get(fromIP.getHostAddress()).receiveMessage(m.getContent());
+        conversationWindowControllers.get(fromIP.getHostAddress()).receiveMessage(m);
     }
 
     public void endConversation(ConversationWindowController windowController) {
         conversationWindowControllers.remove(windowController.getConversation().getForeignAddress());
     }
 
-    public void sendMessage(Message message) throws IOException {
+    public void sendMessage(Message message, ConversationWindowController windowController) throws IOException {
         server.sendMessage(message);
+        messagesToControllersMap.put(message, windowController);
     }
 
-    public void handleFatalError(String message) {
+    private void handleFatalError(String message) {
         for (Map.Entry<String, ConversationWindowController> entry : conversationWindowControllers.entrySet()) {
             entry.getValue().handleFatalError(message);
         }
@@ -106,7 +112,17 @@ public class Communicator {
         server.stop();
     }
 
-    public void handleWarning(String message) {
+    private void handleWarning(String message) {
         mainWindowController.handleWarning(message);
+    }
+
+    public void handleMessageFailure(Message message, String reason) {
+        ConversationWindowController conversationWindowController = messagesToControllersMap.remove(message);
+        conversationWindowController.handleSendError(message, reason);
+    }
+
+    public void handleMessageSuccess(Message message) {
+        ConversationWindowController conversationWindowController = messagesToControllersMap.remove(message);
+        conversationWindowController.handleSendSuccess(message);
     }
 }

@@ -1,5 +1,7 @@
 package com.communicator490.communication;
 
+import com.communicator490.Communicator;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -10,10 +12,12 @@ public class Server {
     private DatagramSocket socket;
     private int internalPort = 490;
     private ServerThread serverThread;
+    private SendingMessagesThread sendingThread;
 
     public void stop() {
         socket.close();
         serverThread.interrupt();
+        sendingThread.interrupt();
     }
 
     public int getInternalPort() {
@@ -33,17 +37,19 @@ public class Server {
         if (!success) {
             throw new SocketException("Can't establish server: no free port?");
         }
+
         serverThread = new ServerThread(socket, String.format("ServerOn%dThread", internalPort));
         serverThread.start();
+
+        sendingThread = new SendingMessagesThread(socket, String.format("SendingServerOn%dThread", internalPort));
+        sendingThread.start();
     }
 
     public Server() throws SocketException {
         start();
     }
 
-    public void sendMessage(Message message) throws IOException {
-        byte[] buf = message.getContent().getBytes();
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, message.getIp(), message.getPort());
-        socket.send(packet);
+    public void sendMessage(Message message) {
+        sendingThread.send(message);
     }
 }

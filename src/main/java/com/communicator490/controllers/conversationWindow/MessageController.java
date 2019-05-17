@@ -5,6 +5,7 @@ import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 
 import java.text.DateFormat;
@@ -46,5 +47,14 @@ public class MessageController extends Controller {
 
     public void setText(String s) {
         messageContent.setText(s);
+    }
+
+    public void setFailed() {
+        messageContent.setFill(Paint.valueOf("gray"));
+        messageContent.setStrikethrough(true);
+    }
+
+    public void setSuccess() {
+        messageContent.setText("(✓) " + messageContent.getText());
     }
 }
